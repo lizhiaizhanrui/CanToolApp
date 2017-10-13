@@ -24,26 +24,27 @@
 
 1.4开发环境
 
-Android
+ADT+eclipse+SDK
 
 
 二：可行性分析
 
 2.1经济可行性
 
-随着时代发展，汽车已经成为了大多数人的代步工具。而CanTool及CanToolApp系统是现代汽车控制技术中不可缺少的一部分。因此，在汽车产业越来越繁荣的背景下，CanTool项目应有较大的经济支持。
+随着时代发展，汽车已经成为了大多数人的代步工具。而CanTool及CanToolApp系统是现代汽车控制技术中不可缺少的一部分。因此，在汽车产业越来越繁荣的背景下，CanTool项目应有较大的经济支持。再加上手机的广泛使用，CanToolAPP的开发显得尤为重要，在手机上可以看到汽车的一些数据。
 
 2.2技术可行性
 
-实现CanTool和CanToolApp的硬件设施、软件设置（如：windows、Android）都已非常成熟。
+实现CanTool和CanToolApp的硬件设施、软件设置（如：windows、Android）都已非常成熟。现在Android系统已经很成熟
 
 
 三：功能需求分析
 3.0首先给出两个软件的数据流图如下所示：
+CanTool装置与CanToolAPP之间通信的数据流图
 ![](https://i.imgur.com/pcxKlPx.jpg)
 ![](https://i.imgur.com/0GqgXpD.png)
 
-3.1、CanTool
+3.1、CanTool装置
 
 - 采集CAN总线上的信息
 
@@ -54,8 +55,7 @@ Android
 
 3.2、CanToolApp
 
-- 能够搜索到本机所有可使用的COM口，并在弹出式ComboBox中以列表方式让用户选择CanTool装置在上位机中映射的COM口。并设置相应COM口波特率115200、数据位数8、停止位数1。这些设定内容可保存到CanToolApp设定文件中，供下次使用。基本信息如图 4所示。
-![](https://i.imgur.com/rP35i1L.png)
+- 能够通过手机的蓝牙设备与CanTool装置进行连接，实现数据传输
  
 - 能够实现CANtool装置的CAN速率设置、进入CAN工作状态（Open）、进入CAN初始化状态（ Close）。这些设定内容可保存到CanToolApp设定文件中，供下次使用。
 
