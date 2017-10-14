@@ -8,8 +8,8 @@ import android.widget.TabHost;
 
 public class AnimationTabHost extends TabHost{
 	
-	private int mCurrentTabID = 0;
-	private final long durationMillis = 400;
+	private int mCurrentTabID = 0;//当前的tabID
+	private final long durationMillis = 400;//动画时间
 		
 	public AnimationTabHost(Context context) {
 		super(context);
@@ -18,10 +18,11 @@ public class AnimationTabHost extends TabHost{
 	public AnimationTabHost(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}	
-
+	
+	/*切换动画*/
 	@Override
 	public void setCurrentTab(int index) {	
-				
+		//向右平移		
 		if(index > mCurrentTabID)
 		{
         	 TranslateAnimation translateAnimation = new TranslateAnimation      
@@ -34,6 +35,7 @@ public class AnimationTabHost extends TabHost{
         	 translateAnimation.setDuration(durationMillis);      
              getCurrentView().startAnimation(translateAnimation); 
 		}
+		//向左平移
 		else if(index < mCurrentTabID)
 		{
         	 TranslateAnimation translateAnimation = new TranslateAnimation      

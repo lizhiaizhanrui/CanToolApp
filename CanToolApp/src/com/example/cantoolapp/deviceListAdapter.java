@@ -1,7 +1,7 @@
 package com.example.cantoolapp;
 
 import com.example.cantoolapp.R;
-import com.example.cantoolapp.deviceActivity.SiriListItem;
+import com.example.cantoolapp.chatActivity.deviceListItem;
 
 import java.util.ArrayList;
 import android.content.Context;
@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class ChatListAdapter extends BaseAdapter {
-    private ArrayList<SiriListItem> list;
+public class deviceListAdapter extends BaseAdapter {
+    private ArrayList<deviceListItem> list;
     private LayoutInflater mInflater;
   
-    public ChatListAdapter(Context context, ArrayList<SiriListItem> list2) {
-    	list = list2;
+    public deviceListAdapter(Context context, ArrayList<deviceListItem> l) {
+    	list = l;
 		mInflater = LayoutInflater.from(context);
     }
 
@@ -38,7 +38,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
     	ViewHolder viewHolder = null;
-    	SiriListItem  item=list.get(position);
+    	deviceListItem  item=list.get(position);
         if(convertView == null){
         	convertView = mInflater.inflate(R.layout.list_item, null);          
         	viewHolder=new ViewHolder(
