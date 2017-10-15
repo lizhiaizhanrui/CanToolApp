@@ -1,5 +1,6 @@
 package com.example.dataAnalysis;
 
+//用于解析传过来的信号
 public class SignalValue {
 	public String name;
 	public String value;

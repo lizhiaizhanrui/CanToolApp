@@ -2,6 +2,7 @@ package com.example.dataAnalysis;
 
 import java.util.List;
 
+//用于解析CanTool传过来的信息
 public class CanMsgValue {
 	public String id;
 	public String name;
