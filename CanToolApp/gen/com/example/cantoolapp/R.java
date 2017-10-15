@@ -13,6 +13,11 @@ public final class R {
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
 
+         Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
+    
+
          Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
@@ -21,31 +26,48 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int msgbox_rec=0x7f020001;
-        public static final int msgbox_send=0x7f020002;
+        public static final int bottom_bar=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int msgbox_rec=0x7f020002;
+        public static final int msgbox_send=0x7f020003;
+        public static final int tab_address_normal=0x7f020004;
+        public static final int tab_address_pressed=0x7f020005;
+        public static final int tab_weixin_normal=0x7f020006;
+        public static final int tab_weixin_pressed=0x7f020007;
+        public static final int title_bar=0x7f020008;
     }
     public static final class id {
-        public static final int LayoutSwitch=0x7f08000c;
-        public static final int MessageText=0x7f080004;
-        public static final int action_settings=0x7f08000d;
-        public static final int bt_bottombar=0x7f080007;
-        public static final int btn_disconnect=0x7f080002;
-        public static final int btn_msg_send=0x7f080003;
-        public static final int chat_msg=0x7f08000b;
-        public static final int container=0x7f080000;
-        public static final int devices=0x7f080006;
-        public static final int edit_bottombar=0x7f080001;
-        public static final int list=0x7f080005;
-        public static final int list_child=0x7f08000a;
-        public static final int start_seach=0x7f080009;
-        public static final int start_service=0x7f080008;
+        public static final int LayoutSwitch=0x7f080013;
+        public static final int MessageText=0x7f08000a;
+        public static final int action_settings=0x7f080014;
+        public static final int bt_bottombar=0x7f08000d;
+        public static final int btn1=0x7f080010;
+        public static final int btn_disconnect=0x7f080008;
+        public static final int btn_msg_send=0x7f080009;
+        public static final int chat_msg=0x7f080012;
+        public static final int container=0x7f080006;
+        public static final int devices=0x7f08000c;
+        public static final int edit_bottombar=0x7f080007;
+        public static final int imageView1=0x7f080001;
+        public static final int imageView2=0x7f080004;
+        public static final int list=0x7f08000b;
+        public static final int list_child=0x7f080011;
+        public static final int start_seach=0x7f08000f;
+        public static final int start_service=0x7f08000e;
+        public static final int tabbluetooth=0x7f080000;
+        public static final int tabdata=0x7f080003;
+        public static final int textView1=0x7f080002;
+        public static final int textView2=0x7f080005;
     }
     public static final class layout {
-        public static final int chat=0x7f030000;
-        public static final int devices=0x7f030001;
-        public static final int list_item=0x7f030002;
-        public static final int main=0x7f030003;
+        public static final int bottom=0x7f030000;
+        public static final int chat=0x7f030001;
+        public static final int devices=0x7f030002;
+        public static final int fragment_bluetooth=0x7f030003;
+        public static final int fragment_data=0x7f030004;
+        public static final int list_item=0x7f030005;
+        public static final int main=0x7f030006;
+        public static final int top=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f070000;
