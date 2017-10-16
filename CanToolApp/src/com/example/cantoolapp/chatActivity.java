@@ -161,6 +161,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
         	Bluetooth.isOpen = true;
         }
     }
+    //----------------------------连接蓝牙----------------------------
 	//开启客户端
 	private class clientThread extends Thread { 		
 		public void run() {
@@ -287,6 +288,8 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			};
 		}.start();
 	}
+	//-----------------------------连接结束-------------------------------
+	//-----------------------------数据传输-------------------------------
 	//发送数据
 	private void sendMessageHandle(String msg) 
 	{		
@@ -348,6 +351,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
             }
         }
     }
+    //---------------------------数据传送结束----------------------------
     @Override
     protected void onDestroy() {
         super.onDestroy();

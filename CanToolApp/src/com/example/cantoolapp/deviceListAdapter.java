@@ -35,7 +35,9 @@ public class deviceListAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
         return position;
     }
-
+    //ListView中的每一个Item显示都需要Adapter调用一次getView()的方法，
+    //这个方法会传入一个convertView的参数，这个方法返回的View就是这个Item显示的View。
+    //如果当Item的数量足够大，再为每一个Item都创建一个View对象，必将占用很多内存空间，即创建View对象
     public View getView(int position, View convertView, ViewGroup parent) {
     	ViewHolder viewHolder = null;
     	deviceListItem  item=list.get(position);
@@ -63,7 +65,8 @@ public class deviceListAdapter extends BaseAdapter {
         
         return convertView;
     }
-    
+    //先声明一下ViewHolder在Android自定义的适配器中使用。
+    //目的：优化资源，节省空间，避免重复绘制view而引起的不必要的内存损耗。
     class ViewHolder {
     	  protected View child;
           protected TextView msg;

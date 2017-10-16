@@ -61,18 +61,18 @@ public class deviceActivity extends Activity {
 		mListView.setOnItemClickListener(mDeviceClickListener);	
 		
         
-		 // Register for broadcasts when a device is discovered
+		 //广播设备
         IntentFilter discoveryFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(mReceiver, discoveryFilter);
 
-        // Register for broadcasts when discovery has finished
+        //发现设备结束
         IntentFilter foundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(mReceiver, foundFilter);
         
-        // Get a set of currently paired devices
+        // 得到当前配对设备
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
 
-        // If there are paired devices, add each one to the ArrayAdapter
+        //没有配对的设备，加入列表
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
             	list.add(new SiriListItem(device.getName() + "\n" + device.getAddress(), true));
