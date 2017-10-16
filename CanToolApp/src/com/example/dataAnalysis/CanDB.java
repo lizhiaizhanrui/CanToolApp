@@ -15,7 +15,7 @@ public class CanDB {
 	
 	CanDB()
 	{
-		this.fileName = "G:/¿Î³Ì/SoftwareEngineering2017TJU-master/canmsg-sample.txt";
+		this.fileName = "src/com/example/dataAnalysis/canmsg-sample.txt";
 		File file = new File(fileName);
 		this.canDbc = getMsgDbc(file);
 	}
