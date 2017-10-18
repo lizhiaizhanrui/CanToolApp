@@ -10,24 +10,27 @@ import java.util.Map;
 
 //用于获取Can信息和信号描述数据库
 public class CanDB {
-	public static String fileName;
+	public static String data;
 	public static Map<String,CanMessage> canDbc;
 	
 	CanDB()
 	{
-		this.fileName = "..\\src\\com\\example\\dataAnalysis\\canmsg-sample.txt";
-		File file = new File(fileName);
-		this.canDbc = getMsgDbc(file);
+		
 	}
 	
-	public String getFileName() {
-		return fileName;
+	public CanDB(String data)
+	{
+		this.data = data;
+		this.canDbc = getMsgDbc(data);
+	}
+	
+	public String getData() {
+		return data;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-		File file = new File(fileName);
-		canDbc = getMsgDbc(file);
+	public void setData(String data) {
+		this.data = data;
+		canDbc = getMsgDbc(data);
 	}
 
 	public Map<String, CanMessage> getCanDbc() {
@@ -39,20 +42,21 @@ public class CanDB {
 	}
 	
 	//获取can信息数据库的信息，并转换成Map
-		public Map<String,CanMessage> getMsgDbc(File file)
+		public Map<String,CanMessage> getMsgDbc(String result)
 		{
-			  StringBuilder result = new StringBuilder();
-		      try{
-		            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
-		            String s = null;
-		            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
-		                result.append(System.lineSeparator()+s);
-		            }
-		            br.close();    
-		      }catch(Exception e){
-		            e.printStackTrace();
-		      }
-		      String data[] = result.toString().split("BO_ ");
+//			  StringBuilder result = new StringBuilder();
+//		      try{
+//		            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+//		            String s = null;
+//		            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
+//		                result.append(System.lineSeparator()+s);
+//		            }
+//		            br.close();    
+//		      }catch(Exception e){
+//		            e.printStackTrace();
+//		      }
+//		      String data[] = result.toString().split("BO_ ");
+			  String data[] = result.split("BO_ ");
 			  Map<String,CanMessage> dataMap = new HashMap<String,CanMessage>();
 			  for(int i = 1;i < data.length;i++)
 			  {

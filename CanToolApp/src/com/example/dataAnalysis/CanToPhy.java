@@ -12,7 +12,7 @@ public class CanToPhy {
 	
 	public CanDB canDB;
 	
-	CanToPhy()
+	public CanToPhy()
 	{
 		canDB = new CanDB();
 	}
