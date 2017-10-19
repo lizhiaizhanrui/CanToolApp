@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:id = "@+id/container"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     >
+   
     
-    <RelativeLayout
+     <RelativeLayout
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:id= "@+id/edit_bottombar"
-	  android:layout_alignParentBottom = "true">
+	  android:layout_alignParentBottom = "true"
+	  >
 
         <Button android:id="@+id/btn_disconnect"
 			android:layout_width="65dp" 
@@ -31,17 +33,24 @@
 	      	 android:hint = "发送通信信息。。。"
 	      	 android:textSize="15dip"
 	      	 android:id = "@+id/MessageText"/>
+		
 	</RelativeLayout>  
-
-	 <ListView  
-	    android:id="@+id/list"
-	    android:layout_width="fill_parent"  
-	    android:layout_height="fill_parent" 
-	    android:scrollingCache="false" 
-	    android:divider="#ffc6c6c6" 
-	    android:layout_weight="1.0" 
-	    android:layout_above = "@id/edit_bottombar"/>
-	    <!--android:layout_below="@id/container"  -->
+	 <Button 
+	     android:layout_width="match_parent"
+	     android:layout_height="50dp"
+	     android:id="@+id/button_jump"
+	     android:text="show"
+	    android:layout_alignParentTop="true"
+	    />
 	    
+	 <ListView
+	     android:id="@+id/list"
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:layout_alignParentLeft="true"
+	     android:layout_below="@+id/button_jump"
+	     android:divider="#ffc6c6c6"
+	     android:scrollingCache="false" >
+	 </ListView>
 	    
 </RelativeLayout>

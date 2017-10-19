@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.util.Log;
+
 //用于获取Can信息和信号描述数据库
 public class CanDB {
 	public static String fileName;
@@ -15,7 +17,8 @@ public class CanDB {
 	
 	CanDB()
 	{
-		this.fileName = "src/com/example/dataAnalysis/canmsg-sample.txt";
+		this.fileName = "G:\\githubTest\\CanToolApp\\CanToolApp\\CanToolApp\\src\\com\\example\\dataAnalysis\\canmsg-sample.txt";
+		
 		File file = new File(fileName);
 		this.canDbc = getMsgDbc(file);
 	}

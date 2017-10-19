@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.util.Log;
+
 public class CanToPhy {
 	
 	public CanDB canDB;
 	
-	CanToPhy()
+	public CanToPhy()
 	{
 		canDB = new CanDB();
 	}
@@ -114,9 +116,11 @@ public class CanToPhy {
 			 mapDbc = canDB.getCanDbc();
 			 String id = message.substring(1,4);
 			 CanMessage msgModel = mapDbc.get(String.valueOf(Integer.parseInt(id,16)));
-			 
+			 int size = mapDbc.size();
 			 msgValue.setId(id);
+			 Log.e("ee", "22");
 			 msgValue.setName(msgModel.name);
+			 Log.e("eee", "33");
 			 msgValue.setDLC(message.charAt(4));
 			 msgValue.setDir(msgModel.nodeName);
 			 msgValue.setData(message.substring(5,message.length()));

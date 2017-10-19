@@ -1,9 +1,10 @@
 package com.example.dataAnalysis;
 
+import java.io.Serializable;
 import java.util.List;
 
 //用于解析CanTool传过来的信息
-public class CanMsgValue {
+public class CanMsgValue implements Serializable{
 	public String id;
 	public String name;
 	public char DLC;

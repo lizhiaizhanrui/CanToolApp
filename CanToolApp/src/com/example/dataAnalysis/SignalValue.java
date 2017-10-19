@@ -1,7 +1,9 @@
 package com.example.dataAnalysis;
 
+import java.io.Serializable;
+
 //用于解析传过来的信号
-public class SignalValue {
+public class SignalValue implements Serializable{
 	public String name;
 	public String value;
 	public String unit;

@@ -1,12 +1,17 @@
 package com.example.cantoolapp;
 
 import com.example.cantoolapp.R;
+import com.example.dataAnalysis.CanMsgValue;
+import com.example.dataAnalysis.CanToPhy;
+import com.example.dataAnalysis.SignalValue;
 import com.example.cantoolapp.Bluetooth.ServerOrCilent;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -14,6 +19,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +41,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	private ArrayList<deviceListItem>list;
 	private Button sendButton;
 	private Button disconnectButton;
+	private Button jumpbutton;
 	private EditText editMsgView;
 	deviceListAdapter mAdapter;
 	Context mContext;
@@ -53,6 +60,11 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	private readThread mreadThread = null;;	
 	private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	
+	private CanToPhy cantophy=new CanToPhy();
+	 private CanMsgValue canMsgValue;
+	 private List<SignalValue> sigValueList=new ArrayList();
+	 private List<String> stringList=new ArrayList<String>();
+	 private List<CanMsgValue> canMsgValuelist = new ArrayList<CanMsgValue>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
@@ -106,7 +118,46 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 				Bluetooth.serviceOrCilent=ServerOrCilent.NONE;
 				Toast.makeText(mContext, "已断开连接！", Toast.LENGTH_SHORT).show();
 			}
-		});		
+		});	
+		
+		jumpbutton = (Button) findViewById(R.id.button_jump);
+		jumpbutton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//s字符串的分割
+				String s="t03D80000000000000000\tt39380000160000000000";
+				String[] split=s.split("\t");
+				for(String str : split){						
+					stringList.add(str);
+					Log.e("str", str);
+					canMsgValue = cantophy.getMessageValue(str);
+					
+					canMsgValuelist.add(canMsgValue);
+				}
+				
+				Intent intent = new Intent(chatActivity.this,TotalShowActivity.class);
+//				Bundle bundle = new Bundle();
+//				bundle.putString("id", canMsgValue.getId());
+//				bundle.putString("name", canMsgValue.getName());
+//				bundle.putChar("DLC", canMsgValue.getDLC());
+//				bundle.putString("Dir", canMsgValue.getDir());
+//				bundle.putString("Data", canMsgValue.getData());
+//				bundle.putInt("sigValueNum", canMsgValue.getSigValueNum());
+//				
+//				intent.putExtras(bundle);
+				
+				intent.putExtra("canMsgValueList", (Serializable)canMsgValuelist);
+//				 sigValueList= canMsgValue.getSigValueList();
+//				 intent.putExtra("sigValueList", (Serializable)sigValueList);
+				 startActivity(intent);
+			
+				
+			}
+		});
+		
+		
 	}    
 
     private Handler LinkDetectedHandler = new Handler() {
@@ -164,6 +215,8 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
     //----------------------------连接蓝牙----------------------------
 	//开启客户端
 	private class clientThread extends Thread { 		
+		
+
 		public void run() {
 			try {
 				//创建一个Socket连接：只需要服务器在注册时的UUID号
@@ -192,6 +245,8 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 				msg.obj = "连接服务端异常！断开连接重新试一试。";
 				msg.what = 0;
 				LinkDetectedHandler.sendMessage(msg);
+				
+	
 			} 
 		}
 	};
@@ -311,7 +366,9 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	}
 	//读取数据
     private class readThread extends Thread { 
-        public void run() {
+       
+
+		public void run() {
         	
             byte[] buffer = new byte[1024];
             int bytes;
@@ -338,6 +395,17 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 						msg.obj = s;
 						msg.what = 1;
 						LinkDetectedHandler.sendMessage(msg);
+						
+						//s字符串的分割
+						String[] split=s.split("\t");
+						for(String str : split){						
+							stringList.add(str);
+							Log.e("str", str);
+						}
+						
+						//解析数据
+						canMsgValue = cantophy.getMessageValue("t03D80000000000000000");
+						
                     }
                 } catch (IOException e) {
                 	try {
