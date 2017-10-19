@@ -1,16 +1,15 @@
 package com.example.cantoolapp;
 
 import com.example.cantoolapp.R;
-<<<<<<< HEAD
+
 import com.example.dataAnalysis.CanMsgValue;
 import com.example.dataAnalysis.CanToPhy;
 import com.example.dataAnalysis.SignalValue;
-=======
+
 import com.example.dataAnalysis.CanDB;
 import com.example.dataAnalysis.CanMessage;
-import com.example.dataAnalysis.CanMsgValue;
-import com.example.dataAnalysis.CanToPhy;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
+
+
 import com.example.cantoolapp.Bluetooth.ServerOrCilent;
 
 import java.io.BufferedReader;
@@ -20,11 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
-=======
-import java.util.Map;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
 import java.util.UUID;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -32,11 +27,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-<<<<<<< HEAD
 import android.content.Intent;
-=======
-import android.content.res.AssetManager;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -163,8 +154,8 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//s×Ö·û´®µÄ·Ö¸î
-				String s="t03D80000000000000000\tt39380000160000000000";
-				String[] split=s.split("\t");
+				String s="t03D80000000000000000\rt39380000160000000000\r";
+				String[] split=s.split("\r");
 				for(String str : split){						
 					stringList.add(str);
 					Log.e("str", str);

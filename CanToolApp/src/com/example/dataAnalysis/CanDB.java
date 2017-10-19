@@ -17,14 +17,7 @@ public class CanDB {
 	
 	CanDB()
 	{
-<<<<<<< HEAD
-		this.fileName = "G:\\githubTest\\CanToolApp\\CanToolApp\\CanToolApp\\src\\com\\example\\dataAnalysis\\canmsg-sample.txt";
-		
-		File file = new File(fileName);
-		this.canDbc = getMsgDbc(file);
-=======
-		
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
+
 	}
 	
 	public CanDB(String data)
