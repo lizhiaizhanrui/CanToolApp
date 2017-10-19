@@ -1,16 +1,11 @@
 package com.example.cantoolapp;
 
 import com.example.cantoolapp.R;
-<<<<<<< HEAD
-import com.example.dataAnalysis.CanMsgValue;
-import com.example.dataAnalysis.CanToPhy;
 import com.example.dataAnalysis.SignalValue;
-=======
 import com.example.dataAnalysis.CanDB;
 import com.example.dataAnalysis.CanMessage;
 import com.example.dataAnalysis.CanMsgValue;
 import com.example.dataAnalysis.CanToPhy;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
 import com.example.cantoolapp.Bluetooth.ServerOrCilent;
 
 import java.io.BufferedReader;
@@ -20,11 +15,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
-=======
 import java.util.Map;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
 import java.util.UUID;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -32,11 +24,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-<<<<<<< HEAD
 import android.content.Intent;
-=======
 import android.content.res.AssetManager;
->>>>>>> 795d22d515310a83456c99b8eac084ed80d05dca
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -89,17 +78,34 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
         mContext = this;
         init();
        
-        InputStream inputStream = null;
+        InputStream inputStream1 = null;
+        InputStream inputStream2 = null;
+        InputStream inputStream3 = null;
         try{
-        	 inputStream = getAssets().open("canmsg-sample.txt");   
-        	 int size = inputStream.available();    
-             int len = -1;    
-             byte[] bytes = new byte[size];   
-             inputStream.read(bytes);    
-             inputStream.close();    
-             String string = new String(bytes); 
+        	 inputStream1 = getAssets().open("canmsg-sample.txt"); 
+        	 inputStream2 = getAssets().open("Comfort.txt");
+        	 inputStream3 = getAssets().open("PowerTrain.txt");
+        	 int size1 = inputStream1.available();    
+             int len1 = -1;  
+             int size2 = inputStream2.available();    
+             int len2 = -1;  
+             int size3 = inputStream3.available();    
+             int len3 = -1;  
+             byte[] bytes1 = new byte[size1];   
+             byte[] bytes2 = new byte[size2]; 
+             byte[] bytes3 = new byte[size3]; 
+             inputStream1.read(bytes1);    
+             inputStream1.close();
+             inputStream2.read(bytes2);    
+             inputStream2.close();
+             inputStream3.read(bytes3);    
+             inputStream3.close();
+             String string = new String(bytes1); 
+             string += new String(bytes2);
+             string += new String(bytes3);
              CanDB canDB = new CanDB(string); 
-             
+//             int size = canDB.getCanDbc().size();
+//             
 //             CanToPhy canToPhy = new CanToPhy();
 //             CanMsgValue canmsg = canToPhy.getMessageValue("t03D80000000000000000");
 //             String name = canmsg.getName();
