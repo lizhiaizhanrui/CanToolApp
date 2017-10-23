@@ -84,25 +84,25 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
         try{
         	 inputStream1 = getAssets().open("canmsg-sample.txt"); 
         	 inputStream2 = getAssets().open("Comfort.txt");
-        	 inputStream3 = getAssets().open("PowerTrain.txt");
+//        	 inputStream3 = getAssets().open("PowerTrain.txt");
         	 int size1 = inputStream1.available();    
              int len1 = -1;  
              int size2 = inputStream2.available();    
              int len2 = -1;  
-             int size3 = inputStream3.available();    
-             int len3 = -1;  
+//             int size3 = inputStream3.available();    
+//             int len3 = -1;  
              byte[] bytes1 = new byte[size1];   
              byte[] bytes2 = new byte[size2]; 
-             byte[] bytes3 = new byte[size3]; 
+//             byte[] bytes3 = new byte[size3]; 
              inputStream1.read(bytes1);    
              inputStream1.close();
              inputStream2.read(bytes2);    
              inputStream2.close();
-             inputStream3.read(bytes3);    
-             inputStream3.close();
+//             inputStream3.read(bytes3);    
+//             inputStream3.close();
              String string = new String(bytes1); 
              string += new String(bytes2);
-             string += new String(bytes3);
+//             string += new String(bytes3);
              CanDB canDB = new CanDB(string); 
 //             int size = canDB.getCanDbc().size();
 //             
