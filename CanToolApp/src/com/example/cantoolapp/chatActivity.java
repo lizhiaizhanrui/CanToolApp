@@ -175,7 +175,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//s×Ö·û´®µÄ·Ö¸î
-<<<<<<< HEAD
+
 				String s="t03D80000000000000000\rt39380000160000000000\r";
 				String[] split=s.split("\r");
 				for(String str : split){						
@@ -184,7 +184,6 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 					canMsgValue = cantophy.getMessageValue(str);
 					
 					canMsgValuelist.add(canMsgValue);
-=======
 //				s="t31D80200000000000000";
 //				String temp = s;
 				String[] split=s.split("\r");
@@ -198,7 +197,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 						
 						canMsgValuelist.add(canMsgValue);
 					}
->>>>>>> 3103cbaa2ee33d13d1447b8d2c7e3409c8ad6d5f
+
 				}
 				
 				Intent intent = new Intent(chatActivity.this,TotalShowActivity.class);
