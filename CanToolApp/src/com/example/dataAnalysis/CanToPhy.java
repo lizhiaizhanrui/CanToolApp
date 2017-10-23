@@ -65,11 +65,11 @@ public class CanToPhy {
 //		  return dataMap;
 //	 }
 	
-	//将can信息中的data转换成8*8的二进制表
+	//将can信息中的data转换成二进制表
 	public char[][] getBinaryMap(String data,int length)
 	{
-		char result[][] = new char[8][8];
-		for(int i = 0;i < 8;i++)
+		char result[][] = new char[length][8];
+		for(int i = 0;i < length;i++)
 		{
 			for(int l = 0;l < 8;l++)
 			{
@@ -108,74 +108,85 @@ public class CanToPhy {
 	 public CanMsgValue getMessageValue(String message)
 	 {
 		 CanMsgValue msgValue = new CanMsgValue();
+		 
+		 Map<String,CanMessage> mapDbc = new HashMap<String,CanMessage>();
+		 mapDbc = canDB.getCanDbc();
+		 String id = "";
+		 String dec_id = "";
 		 if(message.charAt(0) == 't')
 		 {
-			 Map<String,CanMessage> mapDbc = new HashMap<String,CanMessage>();
-//			 File file = new File("../../canmsg-sample.txt");
-//			 mapDbc = getMsgDbc(file);
-			 mapDbc = canDB.getCanDbc();
-			 String id = message.substring(1,4);
-			 CanMessage msgModel = mapDbc.get(String.valueOf(Integer.parseInt(id,16)));
-			 int size = mapDbc.size();
-			 msgValue.setId(id);
-			 Log.e("ee", "22");
-			 msgValue.setName(msgModel.name);
-			 Log.e("eee", "33");
-			 msgValue.setDLC(message.charAt(4));
-			 msgValue.setDir(msgModel.nodeName);
-			 msgValue.setData(message.substring(5,message.length()));
-			 msgValue.setSigValueNum(msgModel.signalNum);
-			 
-			 char[][] binaryMap = getBinaryMap(msgValue.Data,Integer.parseInt(Character.toString(msgValue.DLC),16));
-			 for(int i = 0;i < 8;i++)
-			 {
-				 String temp = "";
-				 for(int k = 0;k < 8;k++)
-				 {
-					 temp += Character.toString(binaryMap[i][k]);
-				 }
-//				 System.out.println(temp);
-			 }
-			 
-			 List<SignalValue> SigValueList = new ArrayList<SignalValue>();
-			 for(int i = 0;i < msgModel.signalNum;i++)
-			 {
-				 CanSignal sigModel = msgModel.getSignalList().get(i);
-				 int start = sigModel.start;
-				 int length = sigModel.length;
-				 String type = sigModel.type;
-				 String value = "";
-				 start = 8 * (start / 8) + 8 * (start / 8 + 1) - 1 - start;
-				 if(type.equals("0+"))
-				 {		 
-					 for(int k = 0;k < length;k++)
-					 {
-						 value = value + binaryMap[start / 8][start % 8];
-						 start++;
-					 }
-					 
-				 }else if(type.equals("1+"))
-				 {
-					 for(int k = 0;k < length;k++)
-					 {
-						 value = binaryMap[start / 8][start % 8] + value;
-						 if(start % 8 == 0)
-							 start += 15;
-						 else
-							 start--;
-					 }
-				 }
-				 value = Double.toString((Integer.parseInt(value,2) * sigModel.A + sigModel.B));
-				 
-				 SignalValue sigValue = new SignalValue();
-				 sigValue.name = sigModel.name;
-				 sigValue.value = value;
-				 sigValue.unit = sigModel.unit;
-				 sigValue.nodeName = sigModel.nodeName;
-				 SigValueList.add(sigValue);
-			 }
-			 msgValue.setSigValueList(SigValueList);
+			 id = message.substring(1,4);
+			 dec_id = String.valueOf(Integer.parseInt(id,16));
 		 }
+		 else if(message.charAt(0) == 'T')
+		 {
+			 id = message.substring(1,9);
+			 dec_id = hexStr2BinArr(id);
+			 dec_id = "1" + dec_id.substring(1);
+			 dec_id = String.valueOf(Integer.parseInt(dec_id,2));
+		 }
+	
+		 CanMessage msgModel = mapDbc.get(dec_id);
+		 int size = mapDbc.size();
+		 msgValue.setId(id);
+		 msgValue.setName(msgModel.name);
+		 msgValue.setDLC(message.charAt(4));
+		 msgValue.setDir(msgModel.nodeName);
+		 msgValue.setData(message.substring(5,message.length()));
+		 msgValue.setSigValueNum(msgModel.signalNum);
+		 
+		 char[][] binaryMap = getBinaryMap(msgValue.Data,Integer.parseInt(Character.toString(msgValue.DLC),16));
+//		 for(int i = 0;i < 8;i++)
+//		 {
+//			 String temp = "";
+//			 for(int k = 0;k < 8;k++)
+//			 {
+//				 temp += Character.toString(binaryMap[i][k]);
+//			 }
+//			 System.out.println(temp);
+//		 }
+		 
+		 List<SignalValue> SigValueList = new ArrayList<SignalValue>();
+		 for(int i = 0;i < msgModel.signalNum;i++)
+		 {
+			 CanSignal sigModel = msgModel.getSignalList().get(i);
+			 int start = sigModel.start;
+			 int length = sigModel.length;
+			 String type = sigModel.type;
+			 String value = "";
+			 start = 8 * (start / 8) + 8 * (start / 8 + 1) - 1 - start;
+			 if(type.equals("0+"))
+			 {		 
+				 for(int k = 0;k < length;k++)
+				 {
+					 value = value + binaryMap[start / 8][start % 8];
+					 start++;
+				 }
+				 
+			 }else if(type.equals("1+"))
+			 {
+				 for(int k = 0;k < length;k++)
+				 {
+					 value = binaryMap[start / 8][start % 8] + value;
+					 if(start % 8 == 0)
+						 start += 15;
+					 else
+						 start--;
+				 }
+			 }
+			 value = Double.toString((Integer.parseInt(value,2) * sigModel.A + sigModel.B));
+			 
+			 SignalValue sigValue = new SignalValue();
+			 sigValue.name = sigModel.name;
+			 sigValue.value = value;
+			 sigValue.unit = sigModel.unit;
+			 sigValue.nodeName = sigModel.nodeName;
+			 sigValue.C = sigModel.C;
+			 sigValue.D = sigModel.D;
+			 SigValueList.add(sigValue);
+		 }
+		 msgValue.setSigValueList(SigValueList);
 		 return msgValue;
 	 }
+
 }

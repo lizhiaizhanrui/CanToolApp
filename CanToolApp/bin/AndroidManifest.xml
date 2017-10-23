@@ -9,6 +9,7 @@
         android:targetSdkVersion="23" />
 
     <!-- 打开蓝牙权限 -->
+<<<<<<< HEAD
 
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -18,6 +19,14 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+=======
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+>>>>>>> 3103cbaa2ee33d13d1447b8d2c7e3409c8ad6d5f
 
     <application
         android:allowBackup="true"

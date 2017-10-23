@@ -8,6 +8,8 @@ public class SignalValue implements Serializable{
 	public String value;
 	public String unit;
 	public String nodeName;
+	public double C;
+	public double D;
 	
 	public SignalValue()
 	{
@@ -45,6 +47,22 @@ public class SignalValue implements Serializable{
 	}
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
+	}
+	
+	public double getC() {
+		return C;
+	}
+
+	public void setC(double c) {
+		C = c;
+	}
+
+	public double getD() {
+		return D;
+	}
+
+	public void setD(double d) {
+		D = d;
 	}
 
 }

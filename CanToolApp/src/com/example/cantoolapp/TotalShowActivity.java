@@ -6,32 +6,25 @@ import java.util.List;
 
 import com.example.dataAnalysis.CanMsgValue;
 import com.example.dataAnalysis.SignalValue;
+import com.example.showdata.BaseActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class TotalShowActivity extends Activity implements OnItemClickListener{
+public class TotalShowActivity extends BaseActivity implements OnItemClickListener{
 
 //	 private List<FileBean> mDatas = new ArrayList<FileBean>();  
 //	    private ListView mTree;  
 //	  //  private TreeListViewAdapter mAdapter;  
 	    
 	private TotalShowLvAdapter adapter;
-	
-	
-	  private Bundle b;
-	private String id;
-	private String name;
-	private char dlc;
-	private String dir;
-	private String data;
-	private int sigvaluenum;
+
 	private List<CanMsgValue> canMsgValue = new ArrayList<CanMsgValue>();
 	private List<SignalValue> signalValue = new ArrayList<SignalValue>();
 	private ListView totalshowlv;
@@ -95,15 +88,17 @@ public class TotalShowActivity extends Activity implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		Intent intent = new Intent(TotalShowActivity.this,InfoDetailActivity.class);
+		
 		Bundle bundle = new Bundle();
 		bundle.putString("id", canMsgValue.get(position).getId());
+		Log.e("id", canMsgValue.get(position).getId());
 		bundle.putString("name", canMsgValue.get(position).getName());
 		bundle.putChar("DLC", canMsgValue.get(position).getDLC());
 		bundle.putString("Dir", canMsgValue.get(position).getDir());
 		bundle.putString("Data", canMsgValue.get(position).getData());
 		bundle.putInt("sigValueNum", canMsgValue.get(position).getSigValueNum());
 		
+		Intent intent = new Intent(TotalShowActivity.this,InfoDetailActivity.class);
 		intent.putExtras(bundle);
 		
 		intent.putExtra("signalValue", (Serializable)canMsgValue.get(position).getSigValueList());

@@ -15,7 +15,7 @@ public class CanDB {
 	public static String data;
 	public static Map<String,CanMessage> canDbc;
 	
-	CanDB()
+	public CanDB()
 	{
 
 	}

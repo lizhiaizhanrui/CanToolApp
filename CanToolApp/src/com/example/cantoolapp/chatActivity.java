@@ -51,6 +51,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	private Button disconnectButton;
 	private Button jumpbutton;
 	private EditText editMsgView;
+	private Button setbutton;
 	deviceListAdapter mAdapter;
 	Context mContext;
 	
@@ -59,6 +60,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	public static final String PROTOCOL_SCHEME_RFCOMM = "btspp";
 	public static final String PROTOCOL_SCHEME_BT_OBEX = "btgoep";
 	public static final String PROTOCOL_SCHEME_TCP_OBEX = "tcpobex";
+	String s = "";
 	
 	//蓝牙服务，客户socket
 	private BluetoothServerSocket mserverSocket = null;
@@ -77,6 +79,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	 private List<SignalValue> sigValueList=new ArrayList();
 	 private List<String> stringList=new ArrayList<String>();
 	 private List<CanMsgValue> canMsgValuelist = new ArrayList<CanMsgValue>();
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
@@ -84,16 +87,26 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
         mContext = this;
         init();
        
-        InputStream inputStream = null;
+        InputStream inputStream1 = null;
+        InputStream inputStream2 = null;
+        InputStream inputStream3 = null;
         try{
-        	 inputStream = getAssets().open("canmsg-sample.txt");   
-        	 int size = inputStream.available();    
-             int len = -1;    
-             byte[] bytes = new byte[size];   
-             inputStream.read(bytes);    
-             inputStream.close();    
-             String string = new String(bytes); 
+        	 inputStream1 = getAssets().open("canmsg-sample.txt"); 
+        	 inputStream2 = getAssets().open("Comfort.txt");
+        	 int size1 = inputStream1.available();    
+             int len1 = -1;  
+             int size2 = inputStream2.available();    
+             int len2 = -1;  
+             byte[] bytes1 = new byte[size1];   
+             byte[] bytes2 = new byte[size2]; 
+             inputStream1.read(bytes1);    
+             inputStream1.close();
+             inputStream2.read(bytes2);    
+             inputStream2.close();
+             String string = new String(bytes1); 
+             string += new String(bytes2);
              CanDB canDB = new CanDB(string); 
+//             int size = canDB.getCanDbc().size();
              
 //             CanToPhy canToPhy = new CanToPhy();
 //             CanMsgValue canmsg = canToPhy.getMessageValue("t03D80000000000000000");
@@ -120,6 +133,8 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+//				Bundle b = getIntent().getExtras();
+//				String msg = b.getString("msg");
 				String msgText =editMsgView.getText().toString();
 				if (msgText.length()>0) {
 					sendMessageHandle(msgText);	
@@ -160,6 +175,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//s字符串的分割
+<<<<<<< HEAD
 				String s="t03D80000000000000000\rt39380000160000000000\r";
 				String[] split=s.split("\r");
 				for(String str : split){						
@@ -168,28 +184,43 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 					canMsgValue = cantophy.getMessageValue(str);
 					
 					canMsgValuelist.add(canMsgValue);
+=======
+//				s="t31D80200000000000000";
+//				String temp = s;
+				String[] split=s.split("\r");
+				for(String str : split){	
+					str = str.trim();
+					if(str.substring(0,1).equals("t") || str.substring(0,1).equals("T"))
+					{
+						stringList.add(str);
+						Log.e("str", str);
+						canMsgValue = cantophy.getMessageValue(str);
+						
+						canMsgValuelist.add(canMsgValue);
+					}
+>>>>>>> 3103cbaa2ee33d13d1447b8d2c7e3409c8ad6d5f
 				}
 				
 				Intent intent = new Intent(chatActivity.this,TotalShowActivity.class);
-//				Bundle bundle = new Bundle();
-//				bundle.putString("id", canMsgValue.getId());
-//				bundle.putString("name", canMsgValue.getName());
-//				bundle.putChar("DLC", canMsgValue.getDLC());
-//				bundle.putString("Dir", canMsgValue.getDir());
-//				bundle.putString("Data", canMsgValue.getData());
-//				bundle.putInt("sigValueNum", canMsgValue.getSigValueNum());
-//				
-//				intent.putExtras(bundle);
+
 				
 				intent.putExtra("canMsgValueList", (Serializable)canMsgValuelist);
-//				 sigValueList= canMsgValue.getSigValueList();
-//				 intent.putExtra("sigValueList", (Serializable)sigValueList);
+
 				 startActivity(intent);
 			
 				
 			}
 		});
-		
+		setbutton = (Button) findViewById(R.id.button_set);
+		setbutton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(chatActivity.this,SettingActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 	}    
 	
@@ -384,6 +415,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	//发送数据
 	private void sendMessageHandle(String msg) 
 	{		
+		msg += "\r";
 		if (socket == null) 
 		{
 			Toast.makeText(mContext, "没有连接", Toast.LENGTH_SHORT).show();
@@ -426,21 +458,23 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 				    	{
 				    		buf_data[i] = buffer[i];
 				    	}
-						String s = new String(buf_data);
+						s = new String(buf_data);
 						Message msg = new Message();
 						msg.obj = s;
 						msg.what = 1;
 						LinkDetectedHandler.sendMessage(msg);
 						
-						//s字符串的分割
-						String[] split=s.split("\t");
-						for(String str : split){						
-							stringList.add(str);
-							Log.e("str", str);
-						}
+						//s字符串的分割加数据解析
+//						String[] split=s.split("\r");
+//						for(String str : split){						
+//							stringList.add(str);
+//							Log.e("str", str);
+//							canMsgValue = cantophy.getMessageValue(str);
+//							
+//							canMsgValuelist.add(canMsgValue);
+//						}
 						
-						//解析数据
-						canMsgValue = cantophy.getMessageValue("t03D80000000000000000");
+						
 						
                     }
                 } catch (IOException e) {
