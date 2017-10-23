@@ -60,12 +60,16 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 	public static final String PROTOCOL_SCHEME_BT_OBEX = "btgoep";
 	public static final String PROTOCOL_SCHEME_TCP_OBEX = "tcpobex";
 	
+	//蓝牙服务，客户socket
 	private BluetoothServerSocket mserverSocket = null;
-	private ServerThread startServerThread = null;
-	private clientThread clientConnectThread = null;
 	private BluetoothSocket socket = null;
 	private BluetoothDevice device = null;
+	//线程
+	private ServerThread startServerThread = null;
+	private clientThread clientConnectThread = null;
 	private readThread mreadThread = null;;	
+	
+	//默认适配器
 	private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	
 	private CanToPhy cantophy=new CanToPhy();
@@ -110,6 +114,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 		editMsgView= (EditText)findViewById(R.id.MessageText);	
 		editMsgView.clearFocus();
 		
+		//发送
 		sendButton= (Button)findViewById(R.id.btn_msg_send);
 		sendButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,6 +133,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			}
 		});
 		
+		//断开
 		disconnectButton= (Button)findViewById(R.id.btn_disconnect);
 		disconnectButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -186,7 +192,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 		
 		
 	}    
-
+	
     private Handler LinkDetectedHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -206,6 +212,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
     };    
     
     @Override
+    //synchronized同步锁
     public synchronized void onPause() {
         super.onPause();
     }
@@ -277,74 +284,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			} 
 		}
 	};
-
-	//开启服务器
-	private class ServerThread extends Thread { 
-		public void run() {
-					
-			try {
-				/* 创建一个蓝牙服务器 
-				 * 参数分别：服务器名称、UUID	 */	
-				mserverSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(PROTOCOL_SCHEME_RFCOMM,
-						UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));		
-				
-				Log.d("server", "wait cilent connect...");
-				
-				Message msg = new Message();
-				msg.obj = "请稍候，正在等待客户端的连接...";
-				msg.what = 0;
-				LinkDetectedHandler.sendMessage(msg);
-				
-				/* 接受客户端的连接请求 */
-				socket = mserverSocket.accept();
-				Log.d("server", "accept success !");
-				
-				Message msg2 = new Message();
-				String info = "客户端已经连接上！可以发送信息。";
-				msg2.obj = info;
-				msg.what = 0;
-				LinkDetectedHandler.sendMessage(msg2);
-				//启动接受数据
-				mreadThread = new readThread();
-				mreadThread.start();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	};
-	/* 停止服务器 */
-	private void shutdownServer() {
-		new Thread() {
-			public void run() {
-				if(startServerThread != null)
-				{
-					startServerThread.interrupt();
-					startServerThread = null;
-				}
-				if(mreadThread != null)
-				{
-					mreadThread.interrupt();
-					mreadThread = null;
-				}				
-				try {					
-					if(socket != null)
-					{
-						socket.close();
-						socket = null;
-					}
-					if (mserverSocket != null)
-					{
-						mserverSocket.close();/* 关闭服务器 */
-						mserverSocket = null;
-					}
-				} catch (IOException e) {
-					Log.e("server", "mserverSocket.close()", e);
-				}
-			};
-		}.start();
-	}
-	/* 停止客户端连接 */
+	//停止客户端连接
 	private void shutdownClient() {
 		new Thread() {
 			public void run() {
@@ -370,6 +310,75 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 			};
 		}.start();
 	}
+	
+	//开启服务器
+	private class ServerThread extends Thread { 
+		public void run() {
+					
+			try {
+				// 创建一个蓝牙服务器 
+				// 参数分别：服务器名称、UUID	 
+				mserverSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(PROTOCOL_SCHEME_RFCOMM,
+						UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));		
+				
+				Log.d("server", "wait cilent connect...");
+				
+				Message msg = new Message();
+				msg.obj = "请稍候，正在等待客户端的连接...";
+				msg.what = 0;
+				LinkDetectedHandler.sendMessage(msg);
+				
+				// 接受客户端的连接请求 
+				socket = mserverSocket.accept();
+				Log.d("server", "accept success !");
+				
+				Message msg2 = new Message();
+				String info = "客户端已经连接上！可以发送信息。";
+				msg2.obj = info;
+				msg.what = 0;
+				LinkDetectedHandler.sendMessage(msg2);
+				//启动接受数据
+				mreadThread = new readThread();
+				mreadThread.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	};
+	// 停止服务器 
+	private void shutdownServer() {
+		new Thread() {
+			public void run() {
+				if(startServerThread != null)
+				{
+					startServerThread.interrupt();
+					startServerThread = null;
+				}
+				if(mreadThread != null)
+				{
+					mreadThread.interrupt();
+					mreadThread = null;
+				}				
+				try {					
+					if(socket != null)
+					{
+						socket.close();
+						socket = null;
+					}
+					if (mserverSocket != null)
+					{
+						mserverSocket.close();//关闭服务器 
+						mserverSocket = null;
+					}
+				} catch (IOException e) {
+					Log.e("server", "mserverSocket.close()", e);
+				}
+			};
+		}.start();
+	}
+	/* 停止客户端连接 */
+	
 	//-----------------------------连接结束-------------------------------
 	//-----------------------------数据传输-------------------------------
 	//发送数据

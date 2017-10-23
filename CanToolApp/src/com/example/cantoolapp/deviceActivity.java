@@ -38,7 +38,7 @@ public class deviceActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        // If BT is not on, request that it be enabled.
+        
         if (!mBtAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, 3);
@@ -132,10 +132,10 @@ public class deviceActivity extends Activity {
 			}
 		};
 		
-    // The on-click listener for all devices in the ListViews
+    
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
-            // Cancel discovery because it's costly and we're about to connect     
+                 
         	
         	SiriListItem item = list.get(arg2);
             String info = item.message;
@@ -163,26 +163,26 @@ public class deviceActivity extends Activity {
              StopDialog.show();                            
         }
     };	
-    // The BroadcastReceiver that listens for discovered devices and
-    // changes the title when discovery is finished
+    //BroadcastReceiver建厅发现的设备
+    
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            // When discovery finds a device
+            // 发现设备
             if (BluetoothDevice.ACTION_FOUND.equals(action)) 
             {
-                // Get the BluetoothDevice object from the Intent
+                
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                // If it's already paired, skip it, because it's been listed already
+                // 已经配对，跳过
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) 
                 {
                 	list.add(new SiriListItem(device.getName() + "\n" + device.getAddress(), false));
                 	mAdapter.notifyDataSetChanged();
             		mListView.setSelection(list.size() - 1);
                 }
-            // When discovery is finished, change the Activity title
+            
             } 
             else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) 
             {
@@ -210,11 +210,11 @@ public class deviceActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // Make sure we're not doing discovery anymore
+        //没发现新设备
         if (mBtAdapter != null) {
             mBtAdapter.cancelDiscovery();
         }
-        // Unregister broadcast listeners
+        // 注销广播
         this.unregisterReceiver(mReceiver);
     }
 }
