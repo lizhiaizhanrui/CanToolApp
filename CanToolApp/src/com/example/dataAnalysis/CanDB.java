@@ -15,8 +15,9 @@ public class CanDB {
 	public static String data;
 	public static Map<String,CanMessage> canDbc;
 	
-	CanDB()
+	public CanDB()
 	{
+
 	}
 	
 	public CanDB(String data)
@@ -61,7 +62,6 @@ public class CanDB {
 			  Map<String,CanMessage> dataMap = new HashMap<String,CanMessage>();
 			  for(int i = 1;i < data.length;i++)
 			  {
-				  data[i] = data[i].replaceAll("\r|\n", "");
 				  String temp[] = data[i].split(" ");
 				  CanMessage message = new CanMessage(temp[0],temp[1].substring(0, temp[1].length() - 1),temp[2].charAt(0),temp[3]);
 				  String signals[] = data[i].split("SG_ ");

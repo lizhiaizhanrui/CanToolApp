@@ -7,7 +7,7 @@ import java.util.Map;
 public class PhyToCan {
 	public CanDB canDB;
 	
-	PhyToCan()
+	public PhyToCan()
 	{
 		canDB = new CanDB();
 	}
@@ -20,7 +20,7 @@ public class PhyToCan {
 		mapDbc = canDB.getCanDbc();
 		CanMessage Msg = mapDbc.get(userMsg.id);//获取数据库中该条信息的解析格式；
 		
-		if(Integer.parseInt(userMsg.id) < 1073741824)
+		if(Double.parseDouble(userMsg.id) < 2.147483648E9)
 		{
 			result += "t";
 			String binaryId = Integer.toBinaryString(Integer.parseInt(userMsg.id));
@@ -61,8 +61,9 @@ public class PhyToCan {
 			result += hex.toUpperCase();
 		}
 		result += Msg.DLC;
-		char data[][] = new char[8][8];
-		for(int i = 0;i < 8;i++)
+		int data_size = Integer.parseInt(Character.toString(Msg.DLC),16);
+		char data[][] = new char[data_size][8];
+		for(int i = 0;i < data_size;i++)
 		{
 			for(int j = 0;j < 8;j++)
 			{

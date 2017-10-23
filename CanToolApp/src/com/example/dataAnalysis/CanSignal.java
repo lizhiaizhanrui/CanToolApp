@@ -1,7 +1,9 @@
 package com.example.dataAnalysis;
 
+import java.io.Serializable;
+
 //数据库中信号的解析格式
-public class CanSignal {
+public class CanSignal implements Serializable{
 	public String name;
 	public int start;
 	public int length;

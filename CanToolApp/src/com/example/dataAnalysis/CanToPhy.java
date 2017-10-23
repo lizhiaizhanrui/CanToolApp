@@ -65,11 +65,11 @@ public class CanToPhy {
 //		  return dataMap;
 //	 }
 	
-	//将can信息中的data转换成8*8的二进制表
+	//将can信息中的data转换成二进制表
 	public char[][] getBinaryMap(String data,int length)
 	{
-		char result[][] = new char[8][8];
-		for(int i = 0;i < 8;i++)
+		char result[][] = new char[length][8];
+		for(int i = 0;i < length;i++)
 		{
 			for(int l = 0;l < 8;l++)
 			{
@@ -112,16 +112,21 @@ public class CanToPhy {
 		 Map<String,CanMessage> mapDbc = new HashMap<String,CanMessage>();
 		 mapDbc = canDB.getCanDbc();
 		 String id = "";
+		 String dec_id = "";
 		 if(message.charAt(0) == 't')
 		 {
 			 id = message.substring(1,4);
+			 dec_id = String.valueOf(Integer.parseInt(id,16));
 		 }
 		 else if(message.charAt(0) == 'T')
 		 {
 			 id = message.substring(1,9);
-			
+			 dec_id = hexStr2BinArr(id);
+			 dec_id = "1" + dec_id.substring(1);
+			 dec_id = String.valueOf(Integer.parseInt(dec_id,2));
 		 }
-		 CanMessage msgModel = mapDbc.get(String.valueOf(Integer.parseInt(id,16)));
+	
+		 CanMessage msgModel = mapDbc.get(dec_id);
 		 int size = mapDbc.size();
 		 msgValue.setId(id);
 		 msgValue.setName(msgModel.name);
@@ -131,15 +136,15 @@ public class CanToPhy {
 		 msgValue.setSigValueNum(msgModel.signalNum);
 		 
 		 char[][] binaryMap = getBinaryMap(msgValue.Data,Integer.parseInt(Character.toString(msgValue.DLC),16));
-		 for(int i = 0;i < 8;i++)
-		 {
-			 String temp = "";
-			 for(int k = 0;k < 8;k++)
-			 {
-				 temp += Character.toString(binaryMap[i][k]);
-			 }
+//		 for(int i = 0;i < 8;i++)
+//		 {
+//			 String temp = "";
+//			 for(int k = 0;k < 8;k++)
+//			 {
+//				 temp += Character.toString(binaryMap[i][k]);
+//			 }
 //			 System.out.println(temp);
-		 }
+//		 }
 		 
 		 List<SignalValue> SigValueList = new ArrayList<SignalValue>();
 		 for(int i = 0;i < msgModel.signalNum;i++)
@@ -183,4 +188,5 @@ public class CanToPhy {
 		 msgValue.setSigValueList(SigValueList);
 		 return msgValue;
 	 }
+
 }
