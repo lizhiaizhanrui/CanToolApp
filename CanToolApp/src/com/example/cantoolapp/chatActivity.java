@@ -5,7 +5,7 @@ import com.example.cantoolapp.R;
 import com.example.dataAnalysis.CanMsgValue;
 import com.example.dataAnalysis.CanToPhy;
 import com.example.dataAnalysis.SignalValue;
-
+//import com.example.dataSave.saveToXml;
 import com.example.dataAnalysis.CanDB;
 import com.example.dataAnalysis.CanMessage;
 
@@ -171,7 +171,7 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 				//s×Ö·û´®µÄ·Ö¸î
 //				s="t31D80200000000000000";
 //				String temp = s;
-				String[] split=s.split("\r");
+				String[] split=s.split("\\\\r");
 				for(String str : split){	
 					str = str.trim();
 					if(str.substring(0,1).equals("t") || str.substring(0,1).equals("T"))
@@ -183,12 +183,13 @@ public class chatActivity extends Activity implements OnItemClickListener ,OnCli
 						canMsgValuelist.add(canMsgValue);
 					}
 				}
+//				saveToXml saveXml = new saveToXml();
+//				saveXml.save(canMsgValue);
 				
 				Intent intent = new Intent(chatActivity.this,TotalShowActivity.class);
 
 				
 				intent.putExtra("canMsgValueList", (Serializable)canMsgValuelist);
-
 				 startActivity(intent);
 			
 				

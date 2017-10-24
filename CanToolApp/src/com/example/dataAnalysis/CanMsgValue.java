@@ -13,12 +13,12 @@ public class CanMsgValue implements Serializable{
 	public int sigValueNum;
 	public List<SignalValue> SigValueList;
 	
-	CanMsgValue()
+	public CanMsgValue()
 	{
 		
 	}
 	
-	CanMsgValue(String id,String name,char DLC,String Dir,String Data,int sigValueNum,List<SignalValue> SigValueList)
+	public CanMsgValue(String id,String name,char DLC,String Dir,String Data,int sigValueNum,List<SignalValue> SigValueList)
 	{
 		this.id = id;
 		this.name = name;
