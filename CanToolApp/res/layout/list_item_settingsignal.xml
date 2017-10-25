@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <TextView 
+        android:id="@+id/signalname_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="信号名称"/>
+    
+    
+    <RelativeLayout 
+        android:id="@+id/setting_rl"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/signalname_tv"
+        >
+    <TextView
+        android:id="@+id/signalmin_tv"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+     
+        android:text="Min:"/>
+
+    <TextView 
+        android:id="@+id/signalminValue_tv"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        
+        android:layout_toRightOf="@+id/signalmin_tv"
+        
+        />
+    
+    <TextView
+        android:id="@+id/signalmax_tv"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+       android:layout_toRightOf="@+id/signalminValue_tv"
+        android:text="Max:"/>
+
+    <TextView 
+        android:id="@+id/signalmaxValue_tv"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/signalmax_tv"
+        
+        />
+    
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/setting_rl1"
+        android:layout_below="@+id/setting_rl"
+        >
+         <EditText 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsignal_edt"	
+        android:hint="请输入范围内的值"/>
+    </RelativeLayout>
+</RelativeLayout>
