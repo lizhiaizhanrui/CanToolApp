@@ -9,6 +9,7 @@ import java.util.Map;
 import com.example.dataAnalysis.CanMsgUserInput;
 import com.example.dataAnalysis.CanSignal;
 import com.example.dataAnalysis.PhyToCan;
+import com.example.showdata.ActivityControl;
 import com.example.showdata.BaseActivity;
 
 import android.app.Activity;
@@ -50,25 +51,31 @@ public class SettingSignalActivity extends BaseActivity {
 		setsignalLv = (ListView) findViewById(R.id.setting_signal_lv);
 		 adapter = new SettingSignalLvAdapter(SettingSignalActivity.this,list);
 		setsignalLv.setAdapter(adapter);
-
-		initData();
-		input.setPhyValues(edStr);
-		input.setId(id);
-		
-		Calendar c = Calendar.getInstance();
-		i = c.get(Calendar.SECOND);
-		input.setTime(Integer.toString(i));
-		
-		result = phyToCan.getCanMsgString(input);
 		
 		setbtn = (Button) findViewById(R.id.setting_signal_btn);
 		setbtn.setOnClickListener(new OnClickListener() {
 			
+			private Activity SettingActivity;
+			private ActivityControl activityControl;
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(SettingSignalActivity.this,chatActivity.class);
-				startActivity(intent);
+				initData();
+				input.setPhyValues(edStr);
+				input.setId(id);
+				
+				Calendar c = Calendar.getInstance();
+				i = c.get(Calendar.SECOND);
+				input.setTime(Integer.toString(i*1000));
+				
+				result = phyToCan.getCanMsgString(input);
+				Intent intent = new Intent();
+				intent.putExtra("msg",result);
+				Log.e("result", result);
+				setResult(Activity.RESULT_OK, intent);
+				
+				finish();
 				
 			}
 		});
@@ -76,16 +83,15 @@ public class SettingSignalActivity extends BaseActivity {
 	private void initData() {
 		// TODO Auto-generated method stub
 		for(int i = 0;i<list.size();i++){
-			for(Integer key :setMap.keySet()){
-				if(key==i){
-					edStr.add(setMap.get(key));
-				}else{
-					edStr.add("");
-				}
-			}
-			
+			if(setMap.containsKey(i)){
+				edStr.add(setMap.get(i));
+				
+			}else{
+			edStr.add("0");
 		}
-
+	
+		}
+		Log.e("input", edStr.toString());
 	}
 	public void saveEditData(int position ,String str){
 		setMap.put(position, str);

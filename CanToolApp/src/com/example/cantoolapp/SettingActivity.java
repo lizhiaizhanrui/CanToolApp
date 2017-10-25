@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class SettingActivity extends BaseActivity {
@@ -32,7 +33,7 @@ public class SettingActivity extends BaseActivity {
 	private SettingLvAdapter adapter;
 	private List<CanMessage> canmsgList = new ArrayList<CanMessage>();
 	private List<CanSignal> cansigList = new ArrayList<CanSignal>();
-
+	private String getMsg;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,9 +92,28 @@ public class SettingActivity extends BaseActivity {
 				intent.putExtra("id", canmsgList.get(position).getId());
 				intent.putExtra("SignalList",(Serializable)canmsgList.get(position).getSignalList());
 				
-				startActivity(intent);
+				startActivityForResult(intent,1);
 			}
 		});
 		
+	}
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if(requestCode ==1 && resultCode==Activity.RESULT_OK){
+			getMsg=data.getStringExtra("msg");
+			Log.e("setmsg", getMsg);
+			
+			Intent intent = new Intent();
+			intent.putExtra("msg",getMsg);
+			Log.e("result1", getMsg);
+			setResult(Activity.RESULT_OK, intent);
+			
+			finish();
+			
+		}
+		
+	
 	}
 }

@@ -22,18 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.DialogInterface;
+
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
+
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -42,7 +46,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class chatActivity extends BaseActivity implements OnItemClickListener ,OnClickListener{
+public class chatActivity extends Activity implements OnItemClickListener {
     /** Called when the activity is first created. */
 	
 	private ListView mListView;
@@ -75,6 +79,7 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 	 private List<String> stringList=new ArrayList<String>();
 	 private List<CanMsgValue> canMsgValuelist = new ArrayList<CanMsgValue>();
 	private String getMsg;
+//	private String data1;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,34 +136,42 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 		editMsgView.clearFocus();
 		
 		sendButton= (Button)findViewById(R.id.btn_msg_send);
-		sendButton.setOnClickListener(new OnClickListener() {
+		sendButton.setOnClickListener(new  View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				String msgText =editMsgView.getText().toString();
-				Intent intent = getIntent();
-				getMsg = intent.getStringExtra("msg");
+				String msgText ;
+				
 				if(getMsg!=null){
-					msgText=getMsg;
+					msgText=getMsg+"\r";
 					editMsgView.setText(getMsg);
 					Log.e("msg", getMsg);
 				}
-				
-				
+				msgText = editMsgView.getText().toString();
 				if (msgText.length()>0) {
+					if(msgText=="v"||msgText=="V"||msgText=="o1"||msgText=="O1"||msgText=="s0"||
+							msgText=="S0"||msgText=="s1"||msgText=="S1"||msgText=="s2"||msgText=="S2"||
+							msgText=="s3"||msgText=="S3"||msgText=="s4"||msgText=="S4"||msgText=="s5"||
+							msgText=="S5"||msgText=="s6"||msgText=="S6"||msgText=="s7"||msgText=="S7"||
+							msgText=="s8"||msgText=="S8"||msgText=="c"||msgText=="C"){
+						sendMessageHandle(msgText+"\\r");
+						editMsgView.setText("");
+						editMsgView.clearFocus();
+					}else{
 					sendMessageHandle(msgText);	
 					editMsgView.setText("");
-					editMsgView.clearFocus();
+					editMsgView.clearFocus();}
 					//close InputMethodManager
 					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 					imm.hideSoftInputFromWindow(editMsgView.getWindowToken(), 0);
+					
 				}else
 				Toast.makeText(mContext, "发送内容不能为空！", Toast.LENGTH_SHORT).show();
 			}
 		});
 		
 		disconnectButton= (Button)findViewById(R.id.btn_disconnect);
-		disconnectButton.setOnClickListener(new OnClickListener() {
+		disconnectButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -177,7 +190,7 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 		});	
 		
 		jumpbutton = (Button) findViewById(R.id.button_jump);
-		jumpbutton.setOnClickListener(new OnClickListener() {
+		jumpbutton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -202,18 +215,34 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 			}
 		});
 		setbutton = (Button) findViewById(R.id.button_set);
-		setbutton.setOnClickListener(new OnClickListener() {
+		setbutton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(chatActivity.this,SettingActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent,0);
 			}
 		});
+			
+	
 		
 	}    
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode ==0 && resultCode==Activity.RESULT_OK){
+			Bundle bundle = data.getExtras();
+			getMsg=bundle.getString("msg");
+			Toast.makeText(this, getMsg, Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		
+	}
+	
     private Handler LinkDetectedHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -222,7 +251,9 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
         	{
         		list.add(new deviceListItem((String)msg.obj, true));
         	}
-        	else
+        	else if(msg.what==2){
+        		list.add(new deviceListItem((String) msg.obj, false));
+        	}else if(msg.what==0)
         	{
         		list.add(new deviceListItem((String)msg.obj, false));
         	}
@@ -449,6 +480,26 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 						msg.obj = s;
 						msg.what = 1;
 						LinkDetectedHandler.sendMessage(msg);
+						if(s.equals("SV2.5-HV2.0\r")){
+							
+							Message message = new Message();
+							msg.obj = "版本信息";
+							msg.what = 2;
+							LinkDetectedHandler.sendMessage(message);
+							Log.e("版本信息","SV2.5-HV2.0\r");
+						}else if(s.equals("\\r")){
+							Message message = new Message();
+							msg.obj = "成功";
+							msg.what = 2;
+							LinkDetectedHandler.sendMessage(message);
+							Log.e("成功","成功");
+						}else if(s.equals("\\BEL")){
+							Message message = new Message();
+							msg.obj = "失败";
+							msg.what = 2;
+							LinkDetectedHandler.sendMessage(message);
+							Log.e("失败","失败");
+						}
 //						s="t03D80000000000000000\rt39380000160000000000\r";
 						String[] split=s.split("\r");
 						for(String str : split){						
@@ -458,6 +509,8 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 							
 							canMsgValuelist.add(canMsgValue);
 						}
+						
+						
 				
                     }
                 } catch (IOException e) {
@@ -501,10 +554,7 @@ public class chatActivity extends BaseActivity implements OnItemClickListener ,O
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 	}
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-	}	
+
 	public class deviceListItem {
 		String message;
 		boolean isSiri;
