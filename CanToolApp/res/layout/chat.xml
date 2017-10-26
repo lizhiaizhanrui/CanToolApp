@@ -35,25 +35,44 @@
 	      	 android:id = "@+id/MessageText"/>
 		
 	</RelativeLayout>  
-	 <Button 
-	     android:layout_width="match_parent"
+	
+     <RelativeLayout 
+         android:layout_width="match_parent"
+         android:layout_height="50dp"
+         android:id="@+id/rl_btns"
+         android:layout_alignParentTop="true"
+         >
+         
+          <Button 
+	     android:layout_width="100dp"
 	     android:layout_height="50dp"
 	     android:id="@+id/button_jump"
+	     
 	     android:text="显示"
-	    android:layout_alignParentTop="true"
 	    />
 	   <Button 
-	       android:layout_width="match_parent"
+	       android:layout_width="100dp"
 	       android:layout_height="50dp"
 	       android:id="@+id/button_set"
-	       android:text="设定"
-	       android:layout_below="@id/button_jump"/> 
+	       android:text="自定义"
+	       android:layout_toRightOf="@+id/button_jump"/> 
+      
+	   <Button 
+	       android:layout_width="100dp"
+	       android:layout_height="50dp"
+	       android:id="@+id/button_default"
+	       android:text="默认信息"
+	       android:layout_toRightOf="@+id/button_set"/> 
+	   
+     </RelativeLayout>
+     
+	
 	 <ListView
 	     android:id="@+id/list"
 	     android:layout_width="fill_parent"
 	     android:layout_height="wrap_content"
-	     android:layout_alignParentLeft="true"
-	     android:layout_below="@+id/button_set"
+	     android:layout_above="@id/edit_bottombar"
+	     android:layout_below="@+id/rl_btns"
 	     android:divider="#ffc6c6c6"
 	     android:scrollingCache="false" >
 	 </ListView>

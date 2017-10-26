@@ -6,5 +6,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_total_show">TotalShowActivity</string>
     <string name="title_activity_info_detail">InfoDetailActivity</string>
+    <string name="title_activity_panel_show">PanelShowActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_setting_signal">SettingSignalActivity</string>
+    <string name="title_activity_default">DefaultActivity</string>
 
 </resources>
