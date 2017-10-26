@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="libs/crimson.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
