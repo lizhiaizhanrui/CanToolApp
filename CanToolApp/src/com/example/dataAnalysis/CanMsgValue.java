@@ -13,7 +13,7 @@ public class CanMsgValue implements Serializable{
 	public int sigValueNum;
 	public List<SignalValue> SigValueList;
 	
-	CanMsgValue()
+	public CanMsgValue()
 	{
 		
 	}
