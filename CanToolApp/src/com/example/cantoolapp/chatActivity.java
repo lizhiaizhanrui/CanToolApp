@@ -56,6 +56,7 @@ public class chatActivity extends Activity implements OnItemClickListener {
 	private Button jumpbutton;
 	private EditText editMsgView;
 	private Button setbutton;
+	private Button defaultbutton;
 	deviceListAdapter mAdapter;
 	Context mContext;
 	
@@ -79,6 +80,7 @@ public class chatActivity extends Activity implements OnItemClickListener {
 	 private List<String> stringList=new ArrayList<String>();
 	 private List<CanMsgValue> canMsgValuelist = new ArrayList<CanMsgValue>();
 	private String getMsg;
+	
 //	private String data1;
 	
     @Override
@@ -145,28 +147,30 @@ public class chatActivity extends Activity implements OnItemClickListener {
 				if(getMsg!=null){
 					msgText=getMsg+"\r";
 					editMsgView.setText(getMsg);
-					Log.e("msg", getMsg);
+					Log.e("msg", msgText);
 				}
 				msgText = editMsgView.getText().toString();
 				if (msgText.length()>0) {
-					if(msgText=="v"||msgText=="V"||msgText=="o1"||msgText=="O1"||msgText=="s0"||
-							msgText=="S0"||msgText=="s1"||msgText=="S1"||msgText=="s2"||msgText=="S2"||
-							msgText=="s3"||msgText=="S3"||msgText=="s4"||msgText=="S4"||msgText=="s5"||
-							msgText=="S5"||msgText=="s6"||msgText=="S6"||msgText=="s7"||msgText=="S7"||
-							msgText=="s8"||msgText=="S8"||msgText=="c"||msgText=="C"){
-						sendMessageHandle(msgText+"\\r");
-						editMsgView.setText("");
-						editMsgView.clearFocus();
-					}else{
+//					if(msgText=="v"||msgText=="V"||msgText=="o1"||msgText=="O1"||msgText=="s0"||
+//							msgText=="S0"||msgText=="s1"||msgText=="S1"||msgText=="s2"||msgText=="S2"||
+//							msgText=="s3"||msgText=="S3"||msgText=="s4"||msgText=="S4"||msgText=="s5"||
+//							msgText=="S5"||msgText=="s6"||msgText=="S6"||msgText=="s7"||msgText=="S7"||
+//							msgText=="s8"||msgText=="S8"||msgText=="c"||msgText=="C"){
+//						sendMessageHandle(msgText+"\\r");
+//						editMsgView.setText("");
+//						editMsgView.clearFocus();
+//					}else{
 					sendMessageHandle(msgText);	
 					editMsgView.setText("");
-					editMsgView.clearFocus();}
+					editMsgView.clearFocus();
+//					}
 					//close InputMethodManager
 					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 					imm.hideSoftInputFromWindow(editMsgView.getWindowToken(), 0);
 					
-				}else
+				}else{
 				Toast.makeText(mContext, "发送内容不能为空！", Toast.LENGTH_SHORT).show();
+			}
 			}
 		});
 		
@@ -210,8 +214,7 @@ public class chatActivity extends Activity implements OnItemClickListener {
 				Intent intent = new Intent(chatActivity.this,TotalShowActivity.class);
 				intent.putExtra("canMsgValueList", (Serializable)canMsgValuelist);
 				 startActivity(intent);
-				 Bluetooth.serviceOrCilent=ServerOrCilent.SERVICE;
-					Bluetooth.mTabHost.setCurrentTab(1);  
+				
 			}
 		});
 		setbutton = (Button) findViewById(R.id.button_set);
@@ -225,7 +228,16 @@ public class chatActivity extends Activity implements OnItemClickListener {
 			}
 		});
 			
-	
+		defaultbutton = (Button) findViewById(R.id.button_default);
+		defaultbutton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(chatActivity.this,DefaultActivity.class);
+				startActivityForResult(intent, 2);
+			}
+		});
 		
 	}    
 
@@ -236,7 +248,11 @@ public class chatActivity extends Activity implements OnItemClickListener {
 		if(requestCode ==0 && resultCode==Activity.RESULT_OK){
 			Bundle bundle = data.getExtras();
 			getMsg=bundle.getString("msg");
-			Toast.makeText(this, getMsg, Toast.LENGTH_SHORT).show();
+			Log.e("signal", getMsg);
+		}
+		if(requestCode == 2 && resultCode==Activity.RESULT_OK){
+			getMsg=data.getStringExtra("return");
+			Log.e("default", getMsg);
 		}
 		
 		

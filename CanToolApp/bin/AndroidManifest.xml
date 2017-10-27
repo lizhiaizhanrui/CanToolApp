@@ -52,6 +52,22 @@
             android:name=".InfoDetailActivity"
             android:label="@string/title_activity_info_detail" >
         </activity>
+         <activity
+            android:name=".PanelShowActivity"
+            android:label="@string/title_activity_panel_show" >
+        </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
+        <activity
+            android:name=".SettingSignalActivity"
+            android:label="@string/title_activity_setting_signal" >
+        </activity>
+        <activity
+            android:name=".DefaultActivity"
+            android:label="@string/title_activity_default" >
+        </activity>
     </application>
 
 </manifest>

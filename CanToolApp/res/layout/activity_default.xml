@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_version"
+        android:text="CanTool版本信息"
+        android:textSize="15sp"
+ 		/>
+    
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_return"
+        android:text="CanTool装置open信息"
+        android:textSize="15sp"
+        android:layout_below="@+id/btn_version"
+        />
+    
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_speed"
+        android:text="CAN总线的通信速率"
+        android:textSize="15sp"
+        android:layout_below="@+id/btn_return"/>
+    
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_returnclose"
+        android:text="CanTool装置close信息"
+        android:textSize="15sp"
+        android:layout_below="@+id/btn_speed"/>
+</RelativeLayout>
