@@ -8,14 +8,14 @@
         android:id="@+id/signalname_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:text="信号名称"/>
     
     
     <RelativeLayout 
         android:id="@+id/setting_rl"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/signalname_tv"
         >
     <TextView
@@ -23,14 +23,14 @@
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-     
+      android:textSize="15sp"
         android:text="Min:"/>
 
     <TextView 
         android:id="@+id/signalminValue_tv"
         android:layout_width="50dp"
         android:layout_height="30dp"
-        
+         android:textSize="15sp"
         android:layout_toRightOf="@+id/signalmin_tv"
         
         />
@@ -41,28 +41,25 @@
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
        android:layout_toRightOf="@+id/signalminValue_tv"
-        android:text="Max:"/>
+        android:text="Max:"
+         android:textSize="15sp"/>
 
     <TextView 
         android:id="@+id/signalmaxValue_tv"
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_toRightOf="@+id/signalmax_tv"
+        android:textSize="15sp"
         
         />
+  
     
-    </RelativeLayout>
-    
-    <RelativeLayout 
-        android:layout_width="match_parent"
+         <Button 
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:id="@+id/setting_rl1"
-        android:layout_below="@+id/setting_rl"
-        >
-         <EditText 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/settingsignal_edt"	
-        android:hint="请输入范围内的值"/>
+        android:layout_marginLeft="15dp"
+        android:id="@+id/settingsignal_btn"	
+        android:layout_toRightOf="@id/signalmaxValue_tv"
+        android:hint="设定"/>
     </RelativeLayout>
 </RelativeLayout>

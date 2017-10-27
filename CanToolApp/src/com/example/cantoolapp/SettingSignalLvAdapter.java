@@ -8,7 +8,10 @@ import java.util.Map;
 import com.example.cantoolapp.SettingLvAdapter.ViewHolder;
 import com.example.dataAnalysis.CanSignal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,12 +19,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -35,7 +39,7 @@ public class SettingSignalLvAdapter extends BaseAdapter {
 //	private Map<Integer,String> hashMap = new HashMap<Integer,String>();
 //	private Map<Integer,Boolean> mapBoolean = new HashMap<Integer,Boolean>();
 	public HashMap<Integer, String> contents = new HashMap<Integer,String>();
-//	private String str;
+	private String str;
 	public SettingSignalLvAdapter(Context context, List<CanSignal> list) {
 		super();
 		this.context = context;
@@ -70,7 +74,8 @@ public class SettingSignalLvAdapter extends BaseAdapter {
 
 			viewHolder= new ViewHolder(convertView,position);
 			convertView.setTag(viewHolder);
-			viewHolder.setsignal.addTextChangedListener(new MyTextChangedListener(viewHolder,contents));
+//			viewHolder.setsignal.addTextChangedListener(new MyTextChangedListener(viewHolder,contents));
+			viewHolder.setsignalbtn.setOnClickListener(new MyOnClickListener(viewHolder,contents));
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
@@ -80,22 +85,22 @@ public class SettingSignalLvAdapter extends BaseAdapter {
 //		viewHolder.setsignal.setText(hashMap.get(position) == null?"":hashMap.get(position));
 //		holder.setsignal.setClickable((Boolean) (mapBoolean.get(position) == null ? false:hashMap.get(position)));
 
+		viewHolder.setsignalbtn.setTag(position);
+//		viewHolder.setsignal.setTag(position);
 		
-		viewHolder.setsignal.setTag(position);
-		
-		if (!TextUtils.isEmpty(contents.get(position))) {
-	//不为空的时候 赋值给对应的edittext
-			Log.e("dddd", contents.get(position));
-			viewHolder.setsignal.setText(contents.get(position));
-				  if(Double.parseDouble(contents.get(position))!= 0 &&Double.parseDouble(contents.get(position))< list.get(position).getC() && Double.parseDouble(contents.get(position))>list.get(position).getD()){
-						Log.e("error", contents.get(position));
-						Toast.makeText((SettingSignalActivity)context, "输入有误，请重新输入", Toast.LENGTH_SHORT).show();
-					}
-			
-	    } else {//置空
-	    	viewHolder.setsignal.getEditableText().clear();
-	        Log.e("dddddddd", "");
-	    }
+//		if (!TextUtils.isEmpty(contents.get(position))) {
+//	//不为空的时候 赋值给对应的edittext
+//			Log.e("dddd", contents.get(position));
+//			viewHolder.setsignal.setText(contents.get(position));
+//				  if(Double.parseDouble(contents.get(position))!= 0 &&Double.parseDouble(contents.get(position))< list.get(position).getC() && Double.parseDouble(contents.get(position))>list.get(position).getD()){
+//						Log.e("error", contents.get(position));
+//						Toast.makeText((SettingSignalActivity)context, "输入有误，请重新输入", Toast.LENGTH_SHORT).show();
+//					}
+//			
+//	    } else {//置空
+//	    	viewHolder.setsignal.getEditableText().clear();
+//	        Log.e("dddddddd", "");
+//	    }
 		
 		return convertView;
 	}
@@ -104,103 +109,90 @@ public class SettingSignalLvAdapter extends BaseAdapter {
 		private TextView signalname;
 		private TextView signalmin;
 		private TextView signalmax;
-		private EditText setsignal;
+		private Button setsignalbtn;
+		
 
 		public ViewHolder(View view,Object position){
 			signalmin = (TextView) view.findViewById(R.id.signalminValue_tv);
 			signalmax = (TextView) view.findViewById(R.id.signalmaxValue_tv);
 			signalname = (TextView) view.findViewById(R.id.signalname_tv);
-			setsignal = (EditText) view.findViewById(R.id.settingsignal_edt);
-//			setsignal.setTag(position);//存tag的值
-//			setsignal.addTextChangedListener(new TextSwitcher(this));
+			setsignalbtn = (Button) view.findViewById(R.id.settingsignal_btn);
 			
-//			setsignal.setOnClickListener(new OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					EditText ed = (EditText) v;
-//					int position = (Integer) ed.getTag();
-//					if(ed.isClickable()){
-//						hashMap.put(position, str);
-////						mapBoolean.put(position, true);
-//					}else{
-//						hashMap.put(position, "");
-////						mapBoolean.put(position, false);
-//					}
-//						
-//				}
-//			});
-//		}
 		
 	}
 	}
 
-//	class TextSwitcher implements TextWatcher{
-//		private ViewHolder viewHolder;
-//		
-//		public TextSwitcher(ViewHolder viewHolder){
-//			this.viewHolder=viewHolder;
-//		}
+
+
+//		public class MyTextChangedListener implements TextWatcher{
 //
+//		    public ViewHolder holder;
+//		    public HashMap<Integer, String> contents;
+//		    int position;
+//		    public MyTextChangedListener(ViewHolder holder,HashMap<Integer, String> contents){
+//		        this.holder = holder;
+//		        this.contents = contents;
+//		    }
+//
+//		    @Override
+//		    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//		    }
+//
+//		    @Override
+//		    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//		 
+//		    
+//		    }
+//
+//		    @Override
+//		    public void afterTextChanged(Editable editable) {
+//		        if(holder != null && contents != null){
+//		           position = (Integer) holder.setsignal.getTag();
+//		            contents.put(position,editable.toString());
+//
+//						  ((SettingSignalActivity)context).saveEditData(position, editable.toString());
+//					}
+//		        }
 //	
-//
-//		@Override
-//		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void onTextChanged(CharSequence s, int start, int before, int count) {
-//			// TODO Auto-generated method stub
-//			int position=(Integer) viewHolder.setsignal.getTag();//取tag值
-//			((SettingSignalActivity)context).saveEditData(position, s.toString());
-//		
-//		}
-//
-//		@Override
-//		public void afterTextChanged(Editable s) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//	}
-
-		public class MyTextChangedListener implements TextWatcher{
-
-		    public ViewHolder holder;
-		    public HashMap<Integer, String> contents;
-		    int position;
-		    public MyTextChangedListener(ViewHolder holder,HashMap<Integer, String> contents){
-		        this.holder = holder;
-		        this.contents = contents;
-		    }
-
-		    @Override
-		    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-		    }
-
-		    @Override
-		    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		 
-		    
-		    }
-
-		    @Override
-		    public void afterTextChanged(Editable editable) {
-		        if(holder != null && contents != null){
-		           position = (Integer) holder.setsignal.getTag();
-		            contents.put(position,editable.toString());
-
-						  ((SettingSignalActivity)context).saveEditData(position, editable.toString());
-//					}
-		        }
-	
-		    }
+//		    }
 		
-		}
+		public class MyOnClickListener implements View.OnClickListener{
+
+			 public ViewHolder holder;
+			    public HashMap<Integer, String> contents;
+			    int position;
+			    public MyOnClickListener(ViewHolder holder,HashMap<Integer, String> contents){
+			        this.holder = holder;
+			        this.contents = contents;
+			    }
+			
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		
+		final View dialogView = layoutInflater.inflate(R.layout.alert_edittext, null);
+		dialog.setTitle("设置信息值");
+		dialog.setView(dialogView);
+		dialog.setPositiveButton("确定", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				EditText edit = (EditText) dialogView.findViewById(R.id.edit);
+				str=edit.getText().toString();
+				position = (Integer) holder.setsignalbtn.getTag();
+				((SettingSignalActivity)context).saveEditData(position, str);
+				dialog.cancel();
+			}
+		});
+		dialog.show();
 	}
+			
+		}
+	
+		}
+	
 	
 
