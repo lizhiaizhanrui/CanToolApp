@@ -10,5 +10,6 @@
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_setting_signal">SettingSignalActivity</string>
     <string name="title_activity_default">DefaultActivity</string>
+    <string name="title_activity_dir">DirActivity</string>
 
 </resources>

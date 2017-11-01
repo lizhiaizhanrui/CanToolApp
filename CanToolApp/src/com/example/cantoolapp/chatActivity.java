@@ -80,6 +80,7 @@ public class chatActivity extends Activity implements OnItemClickListener {
 	 private List<String> stringList=new ArrayList<String>();
 	 private List<CanMsgValue> canMsgValuelist = new ArrayList<CanMsgValue>();
 	private String getMsg;
+	private Button addbutton;
 	
 //	private String data1;
 	
@@ -238,7 +239,16 @@ public class chatActivity extends Activity implements OnItemClickListener {
 				startActivityForResult(intent, 2);
 			}
 		});
-		
+		addbutton = (Button) findViewById(R.id.button_add);
+		addbutton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(chatActivity.this,DirActivity.class);
+				startActivity(intent);
+			}
+		});
 	}    
 
 	@Override
@@ -248,10 +258,12 @@ public class chatActivity extends Activity implements OnItemClickListener {
 		if(requestCode ==0 && resultCode==Activity.RESULT_OK){
 			Bundle bundle = data.getExtras();
 			getMsg=bundle.getString("msg");
+			editMsgView.setText(getMsg);
 			Log.e("signal", getMsg);
 		}
 		if(requestCode == 2 && resultCode==Activity.RESULT_OK){
 			getMsg=data.getStringExtra("return");
+			editMsgView.setText(getMsg);
 			Log.e("default", getMsg);
 		}
 		
@@ -268,7 +280,7 @@ public class chatActivity extends Activity implements OnItemClickListener {
         		list.add(new deviceListItem((String)msg.obj, true));
         	}
         	else if(msg.what==2){
-        		list.add(new deviceListItem((String) msg.obj, false));
+        		list.add(new deviceListItem((String) msg.obj, true));
         	}else if(msg.what==0)
         	{
         		list.add(new deviceListItem((String)msg.obj, false));
@@ -492,30 +504,32 @@ public class chatActivity extends Activity implements OnItemClickListener {
 				    		buf_data[i] = buffer[i];
 				    	}
 						String s = new String(buf_data);
-						Message msg = new Message();
-						msg.obj = s;
-						msg.what = 1;
-						LinkDetectedHandler.sendMessage(msg);
+					
 						if(s.equals("SV2.5-HV2.0\r")){
 							
 							Message message = new Message();
-							msg.obj = "版本信息";
-							msg.what = 2;
+							message.obj = "版本信息";
+							message.what = 2;
 							LinkDetectedHandler.sendMessage(message);
 							Log.e("版本信息","SV2.5-HV2.0\r");
 						}else if(s.equals("\\r")){
 							Message message = new Message();
-							msg.obj = "成功";
-							msg.what = 2;
+							message.obj = "成功";
+							message.what = 2;
 							LinkDetectedHandler.sendMessage(message);
 							Log.e("成功","成功");
 						}else if(s.equals("\\BEL")){
 							Message message = new Message();
-							msg.obj = "失败";
-							msg.what = 2;
+							message.obj = "失败";
+							message.what = 2;
 							LinkDetectedHandler.sendMessage(message);
 							Log.e("失败","失败");
-						}
+						}else{
+							Message msg = new Message();
+						msg.obj = s;
+						msg.what = 1;
+						LinkDetectedHandler.sendMessage(msg);
+						}	
 //						s="t03D80000000000000000\rt39380000160000000000\r";
 						String[] split=s.split("\r");
 						for(String str : split){						
